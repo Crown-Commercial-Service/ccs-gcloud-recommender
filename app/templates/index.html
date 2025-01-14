@@ -101,8 +101,9 @@
                     <strong><a href="https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud/services/{{result['id']}}" target="_blank">{{ result['serviceName'] }}</a></strong><br>
                     <u>{{ result['supplierName'] }}</u><br>
                     Description: &nbsp;{{ result['serviceDescription'] }}<br>
+                    Features: &nbsp;{{result['serviceFeatures']}}
                     Lot Name: &nbsp; {{result['lotName']}}<br>
-                    email: &nbsp;{{result['emailOrTicketingSupport']}}<br>
+                    <!--email: &nbsp;{{result['emailOrTicketingSupport']}}<br>
                     phone: &nbsp;{{result['phoneSupport']}}<br>
                     Web: &nbsp;{{result['webChatSupport']}}<br>
                     standardsISOIEC27001: &nbsp;{{result['standardsISOIEC27001']}}<br>
@@ -115,7 +116,7 @@
                     staffSecurityClearanceChecks: &nbsp;{{result['staffSecurityClearanceChecks']}}<br>
                     resellingType: &nbsp;{{result['resellingType']}}<br>
                     educationPricing: &nbsp;{{result['educationPricing']}}<br>
-                    freeVersionTrialOption: &nbsp;{{result['freeVersionTrialOption']}}<br>
+                    freeVersionTrialOption: &nbsp;{{result['freeVersionTrialOption']}}<br>-->
                     Score: &nbsp; {{result['score']}}
                     <hr>
                 {%endfor%}
