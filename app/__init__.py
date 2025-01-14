@@ -1,6 +1,9 @@
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 from flask_talisman import Talisman
+from dotenv import load_dotenv 
+
+load_dotenv()
 
 def create_app(config_class='config.production.ProductionConfig'):
     app = Flask(__name__)

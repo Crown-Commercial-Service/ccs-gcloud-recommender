@@ -6,6 +6,23 @@
     <title>G-cloud 14 Intelligent Search</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+
+    <script>
+        function convertStringToList(inputString) {
+        // Parse the string into an array
+        const listItems = JSON.parse(inputString.replace(/'/g, '"'));
+
+        // Create the HTML list
+        const ul = document.createElement('ul');
+        listItems.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            ul.appendChild(li);
+        });
+
+        return ul.outerHTML; // Return the HTML string for the list
+    }
+    </script>
     
 </head>
 <body>
@@ -24,7 +41,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-3" style="background-color: rgb(230, 235, 236);">
+            <div class="col-3" style="background-color: rgb(135, 222, 240);">
                 <form method="post">
                     {{ form.hidden_tag() }}
                     <div class="form-group">
@@ -101,7 +118,7 @@
                     <strong><a href="https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud/services/{{result['id']}}" target="_blank">{{ result['serviceName'] }}</a></strong><br>
                     <u>{{ result['supplierName'] }}</u><br>
                     Description: &nbsp;{{ result['serviceDescription'] }}<br>
-                    Features: &nbsp;{{result['serviceFeatures']}}
+                    Features: &nbsp;{{result['serviceFeatures']|safe}}<br>
                     Lot Name: &nbsp; {{result['lotName']}}<br>
                     <!--email: &nbsp;{{result['emailOrTicketingSupport']}}<br>
                     phone: &nbsp;{{result['phoneSupport']}}<br>

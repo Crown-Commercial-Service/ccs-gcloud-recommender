@@ -4,6 +4,10 @@ from openai import AzureOpenAI
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
 from azure.search.documents.models import VectorizedQuery
+from dotenv import load_dotenv 
+import ast
+
+load_dotenv()
 
 def sanitize_input(user_input):
     """Sanitize user input to prevent XSS or HTML injection."""
@@ -69,3 +73,30 @@ def search_service(query):
             "score": result["@search.score"]  # Azure Search provides the score for each result
         })
     return results
+
+
+# def convert_to_html_list(features):
+#     # Convert the list into an HTML unordered list
+#     features = ast.literal_eval(features)
+#     html_list = "<ul>" + "".join([f"<li>{item}</li>" for item in features]) + "</ul>"
+#     return html_list
+
+def convert_to_html_list(features):
+    """
+    Convert a string or list into an HTML unordered list.
+    """
+    try:
+        # Check if features is a string representation of a list
+        if isinstance(features, str):
+            features = ast.literal_eval(features)
+            # print('String converted to list')
+        
+        # Ensure features is a list after parsing
+        if isinstance(features, list):
+            # Convert the list into an HTML unordered list
+            html_list = "<ul>" + "".join(f"<li>{item}</li>" for item in features) + "</ul>"
+            return html_list
+        else:
+            return "<ul><li>Invalid data format: not a list</li></ul>"
+    except (ValueError, SyntaxError, TypeError):
+        return "<ul><li>Error: Could not parse features</li></ul>"

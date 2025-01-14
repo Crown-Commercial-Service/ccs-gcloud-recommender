@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, Flask
 from .forms import mainPageform
-from .utils import sanitize_input, get_text_embeddings, search_service
+from .utils import sanitize_input, get_text_embeddings, search_service, convert_to_html_list
 import pandas as pd
 
 main = Blueprint('main', __name__)
@@ -122,7 +122,9 @@ def index():
     lot_2_no = filter_df.loc[filter_df['lotName']==lot_2_name,:].shape[0]
     lot_3_no = filter_df.loc[filter_df['lotName']==lot_3_name,:].shape[0]
 
+    filter_df["serviceFeatures"] = filter_df["serviceFeatures"].apply(convert_to_html_list) 
     results = filter_df.to_dict(orient='records')
+     
 
     return render_template('index.html', 
                            form = form, 
