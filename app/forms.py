@@ -212,3 +212,34 @@ class mainPageform(FlaskForm):
 # Management access authentication
 # Security governance standards
 # Datacentre security standard
+
+class lot3Pageform(FlaskForm):
+    Searchbar = StringField('Search')
+    Emailcheckbox = BooleanField('Email support')
+    Phonecheckbox = BooleanField('Phone support')
+    webchatcheckbox = BooleanField('Webchat support')
+    standardsISOIEC27001checkbox = BooleanField('ISO/IEC 27001 (service security)')
+    standardsISO28000checkbox = BooleanField('ISO 28000:2007 (supply chain security)')
+    standardsCSASTARcheckbox = BooleanField('CSA STAR (service security)')
+    standardsPCIcheckbox = BooleanField('PCI DSS (payment card security)')
+    standardsCyberEssentialscheckbox = BooleanField('Cyber essentials')
+    standardsCyberEssentialsPluscheckbox = BooleanField('Cyber essentials plus')
+    educationPricingcheckbox = BooleanField('Discount for Educational org')
+    freeVersionTrialOptioncheckbox = BooleanField('Free trial')
+    MGSC_RadioButtons=RadioField('Minimum Government Secuirty Clearance', 
+                                 choices=[('dv','Developed Vetting (DV)'),
+                                          ('sc','Security Clearance (SC)'),
+                                          ('bpss','Baseline Personnel Security Standard (BPSS)'),
+                                          ('none','none')])
+    Supplier_RadioButtons = RadioField('Supplier Type', 
+                                       choices=[('not_reseller','Not a reseller'),
+                                                ('reseller_extra_features_and_support','Reseller providing extra features and support'),
+                                                ('reseller_extra_support','Reseller providing extra support'),
+                                                ('reseller_no_extras','Reseller (no extras)')])
+    SSCC_RadioButtons = RadioField('Staff Security Clearance Checks',
+                                   choices=[('staff_screening_to_bs7858_2019','Conforms to BS7858:2019'),
+                                            ('staff_screening_not_bs7858_2019','No to BS7858:2019'),
+                                            ('none','none')])
+    SearchButton = SubmitField('Search')
+    FilterButton = SubmitField('Filter')
+    ClearButton = SubmitField('Clear')

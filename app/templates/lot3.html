@@ -14,9 +14,9 @@
             {{ form.hidden_tag() }}
             <div class="form-group">
                 <label for="query">Enter your query:</label>
-                {{ form.Searchbar(class="form-control form-control-lg", autofocus=true) }}
+                {{ form.Searchbar(class="form-control form-control-lg", autofocus=false, disabled=true) }}
             </div>
-            {{ form.SearchButton(class="btn_main btn-primary") }}
+            {{ form.SearchButton(class="btn_main btn-primary", disabled=True) }}
         </form>
         <hr>
     </div>
@@ -65,14 +65,6 @@
                         {% endfor %}
                     </div>
                     <hr>
-                    <!--<div class="form-group">
-                        <strong>Metric reporting</strong>
-                        {{ form.apicheckbox }} {{ form.apicheckbox.label(class="form-control-label") }}<br>
-                        {{ form.real_timecheckbox }} {{ form.real_timecheckbox.label(class="form-control-label") }}<br>
-                        {{ form.regular_reportscheckbox }} {{ form.regular_reportscheckbox.label(class="form-control-label") }}<br>
-                        {{ form.on_requestcheckbox }} {{ form.on_requestcheckbox.label(class="form-control-label") }}<br>
-                    </div>-->
-                    <hr>
                     <div class="form-group">
                         {% if filter_button == 0 %}
                             {{ form.FilterButton(class="btn btn-secondary", disabled=True) }}
@@ -88,40 +80,15 @@
                 <h3>Query</h3><br>
                 <h5>{{query}}</h5><hr>
                 <h3>{{filter_df_len}}</h3><br>
-                {% if filter_button == 0 %}
-                    lot 1: Cloud hosting  <strong>{{lot_1_no}}</strong><br>
-                    lot 2: Cloud software <strong>{{lot_2_no}}</strong><br>
                     lot 3: Cloud support  <strong>{{lot_3_no}}</strong><br>
-                {% else %}
-                    lot 1: <a href="{{url_for('main.lot1')}}" class="link-button">Cloud hosting</a>  <strong>{{lot_1_no}}</strong><br>
-                    lot 2: <a href="{{url_for('main.lot2')}}" class="link-button">Cloud software</a> <strong>{{lot_2_no}}</strong><br>
-                    lot 3: <a href="{{url_for('main.lot3')}}" class="link-button">Cloud support</a>  <strong>{{lot_3_no}}</strong><br>
-                {% endif %}
-                
                 <hr><br>
                 
-                
-
                 {%for result in results%}
                     <strong><a href="https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud/services/{{result['id']}}" target="_blank">{{ result['serviceName'] }}</a></strong><br>
                     <u>{{ result['supplierName'] }}</u><br>
                     Description: &nbsp;{{ result['serviceDescription'] }}<br>
                     Features: &nbsp;{{result['serviceFeatures']|safe}}<br>
                     Lot Name: &nbsp; {{result['lotName']}}<br>
-                    <!--email: &nbsp;{{result['emailOrTicketingSupport']}}<br>
-                    phone: &nbsp;{{result['phoneSupport']}}<br>
-                    Web: &nbsp;{{result['webChatSupport']}}<br>
-                    standardsISOIEC27001: &nbsp;{{result['standardsISOIEC27001']}}<br>
-                    standardsISO28000: &nbsp;{{result['standardsISO28000']}}<br>
-                    standardsCSASTAR: &nbsp;{{result['standardsCSASTAR']}}<br>
-                    standardsPCI: &nbsp;{{result['standardsPCI']}}<br>
-                    standardsCyberEssentials: &nbsp;{{result['standardsCyberEssentials']}}<br>
-                    standardsCyberEssentialsPlus: &nbsp;{{result['standardsCyberEssentialsPlus']}}<br>
-                    governmentSecurityClearances: &nbsp;{{result['governmentSecurityClearances']}}<br>
-                    staffSecurityClearanceChecks: &nbsp;{{result['staffSecurityClearanceChecks']}}<br>
-                    resellingType: &nbsp;{{result['resellingType']}}<br>
-                    educationPricing: &nbsp;{{result['educationPricing']}}<br>
-                    freeVersionTrialOption: &nbsp;{{result['freeVersionTrialOption']}}<br>-->
                     Score: &nbsp; {{result['score']}}
                     <hr>
                 {%endfor%}

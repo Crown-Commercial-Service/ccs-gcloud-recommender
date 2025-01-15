@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, Flask
-from .forms import mainPageform
-from .utils import sanitize_input, get_text_embeddings, search_service, convert_to_html_list
+from .forms import mainPageform, lot3Pageform
+from .utils import sanitize_input, get_text_embeddings, search_service, convert_to_html_list, checkbox_filter
 import pandas as pd
 
 main = Blueprint('main', __name__)
@@ -15,9 +15,11 @@ query = ''
 @main.route('/', methods = ['GET','POST'])
 def index():
     global query
+    global filter_df
     form = mainPageform()
     filter_df = df.copy()
     filter_button = 0
+    
 
     lot_1_no = 0
     lot_2_no = 0
@@ -135,5 +137,77 @@ def index():
                            lot_1_no = lot_1_no,
                            lot_2_no = lot_2_no,
                            lot_3_no = lot_3_no)
+
+@main.route('/lot1', methods=['POST', 'GET'])
+def lot1():
+    return render_template('lot1.html')
+
+@main.route('/lot2', methods=['POST', 'GET'])
+def lot2():
+    return render_template('lot2.html')
+
+@main.route('/lot3', methods=['POST', 'GET'])
+def lot3():
+    global query
+    global filter_df
+    form = lot3Pageform()
+    
+    if request.method == 'POST':
+        print("Form submitted.")
+
+        if form.ClearButton.data:
+            print('Clear button is pressed. Filters reset.')
+            query=''
+            return redirect(url_for('main.index'))
+
+        elif form.FilterButton.data:
+            filter_df = pd.DataFrame(search_service(query))
+            filter_df = filter_df.loc[filter_df['score']>0.82, :]
+
+            # Mapping of form checkboxes to dataframe columns
+            checkbox_column_map = {
+                'Emailcheckbox': 'emailOrTicketingSupport',
+                'Phonecheckbox': 'phoneSupport',
+                'webchatcheckbox': 'webChatSupport',
+                'standardsISOIEC27001checkbox': 'standardsISOIEC27001',
+                'standardsISO28000checkbox': 'standardsISO28000',
+                'standardsCSASTARcheckbox': 'standardsCSASTAR',
+                'standardsPCIcheckbox': 'standardsPCI',
+                'standardsCyberEssentialscheckbox': 'standardsCyberEssentials',
+                'standardsCyberEssentialsPluscheckbox': 'standardsCyberEssentialsPlus',
+                'educationPricingcheckbox': 'educationPricing',
+                'freeVersionTrialOptioncheckbox': 'freeVersionTrialOption'
+            }
+
+            filter_df= checkbox_filter(form, checkbox_column_map, filter_df)
+
+            # # Apply filters based on checked checkboxes
+            # for checkbox, column in checkbox_column_map.items():
+            #     if getattr(form, checkbox).data:
+            #         filter_df = filter_df[filter_df[column] == True]
+
+            
+            if form.MGSC_RadioButtons.data:
+                filter_df = filter_df.loc[filter_df['governmentSecurityClearances'] == form.MGSC_RadioButtons.data]
+            if form.SSCC_RadioButtons.data:
+                filter_df = filter_df.loc[filter_df['staffSecurityClearanceChecks'] == form.SSCC_RadioButtons.data]
+            if form.Supplier_RadioButtons.data:
+                filter_df = filter_df.loc[filter_df['resellingType'] == form.Supplier_RadioButtons.data]
+            
+            filter_df["serviceFeatures"] = filter_df["serviceFeatures"].apply(convert_to_html_list) 
+                       
+            print('Filter button is pressed.')
+
+             
+    lot_3_no = filter_df.loc[filter_df['lotName']=='Cloud support',:].shape[0]
+
+    
+    results = filter_df.to_dict(orient='records')
+
+    return render_template('lot3.html', 
+                           form = form,
+                           query=query, 
+                           lot_3_no=lot_3_no, 
+                           results=results)
 
 

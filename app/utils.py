@@ -75,12 +75,6 @@ def search_service(query):
     return results
 
 
-# def convert_to_html_list(features):
-#     # Convert the list into an HTML unordered list
-#     features = ast.literal_eval(features)
-#     html_list = "<ul>" + "".join([f"<li>{item}</li>" for item in features]) + "</ul>"
-#     return html_list
-
 def convert_to_html_list(features):
     """
     Convert a string or list into an HTML unordered list.
@@ -100,3 +94,11 @@ def convert_to_html_list(features):
             return "<ul><li>Invalid data format: not a list</li></ul>"
     except (ValueError, SyntaxError, TypeError):
         return "<ul><li>Error: Could not parse features</li></ul>"
+    
+def checkbox_filter(form, checkbox_column_map, df):
+    # Apply filters based on checked checkboxes
+    for checkbox, column in checkbox_column_map.items():
+        if getattr(form, checkbox).data:
+            df = df[df[column] == True]
+    
+    return df
