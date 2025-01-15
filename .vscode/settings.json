@@ -1,0 +1,5 @@
+{
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/b1416642-757f-47a4-9992-7ab7a097f641/resourceGroups/AzD-UKS-Question-Answering/providers/Microsoft.Web/sites/AZD-UKS-Gcloud-14-filters",
+    "appService.deploySubpath": "."
+}
