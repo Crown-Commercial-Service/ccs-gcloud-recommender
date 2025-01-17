@@ -8,6 +8,103 @@
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->    
 </head>
 <body>
-    The lot 1 is under construction. 
+    <div class="container">
+        <h1 class="mt-5">G-cloud 14 Intelligent Search</h1>
+        <form method="post" class="mt-4">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="query">Enter your query:</label>
+                {{ form.Searchbar(class="form-control form-control-lg", autofocus=false, disabled=true) }}
+            </div>
+            {{ form.SearchButton(class="btn_main btn-primary", disabled=True) }}
+        </form>
+        <hr>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-3" style="background-color: rgb(135, 222, 240);">
+                <form method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        <strong>User Support</strong><br>
+                        {{ form.Emailcheckbox }} {{ form.Emailcheckbox.label(class="form-control-label") }}<br>
+                        {{ form.Phonecheckbox }} {{ form.Phonecheckbox.label(class="form-control-label") }}<br>
+                        {{ form.webchatcheckbox }} {{ form.webchatcheckbox.label(class="form-control-label") }}<br>
+                        <hr>
+                    </div>
+
+                    <div class="form-group">
+                        <strong>Security Certification</strong><br>
+                        {{ form.standardsISOIEC27001checkbox }} {{ form.standardsISOIEC27001checkbox.label(class="form-control-label") }}<br>
+                        {{ form.standardsISO28000checkbox }} {{ form.standardsISO28000checkbox.label(class="form-control-label") }}<br>
+                        {{ form.standardsCSASTARcheckbox }} {{ form.standardsCSASTARcheckbox.label(class="form-control-label") }}<br>
+                        {{ form.standardsPCIcheckbox }} {{ form.standardsPCIcheckbox.label(class="form-control-label") }}<br>
+                        {{ form.standardsCyberEssentialscheckbox }} {{ form.standardsCyberEssentialscheckbox.label(class="form-control-label") }}<br>
+                        {{ form.standardsCyberEssentialsPluscheckbox }} {{ form.standardsCyberEssentialsPluscheckbox.label(class="form-control-label") }}<br>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <strong>{{ form.MGSC_RadioButtons.label }}</strong><br>
+                        {% for subfield in form.MGSC_RadioButtons %}
+                            <label>{{ subfield }} {{ subfield.label }}</label><br>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <strong>{{ form.SSCC_RadioButtons.label }}</strong><br>
+                        {% for subfield in form.SSCC_RadioButtons %}
+                            <label>{{ subfield }} {{ subfield.label }}</label><br>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <strong>{{ form.Supplier_RadioButtons.label }}</strong><br>
+                        {% for subfield in form.Supplier_RadioButtons %}
+                            <label>{{ subfield }} {{ subfield.label }}</label><br>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    <!--<div class="form-group">
+                        <strong>Metric reporting</strong>
+                        {{ form.apicheckbox }} {{ form.apicheckbox.label(class="form-control-label") }}<br>
+                        {{ form.real_timecheckbox }} {{ form.real_timecheckbox.label(class="form-control-label") }}<br>
+                        {{ form.regular_reportscheckbox }} {{ form.regular_reportscheckbox.label(class="form-control-label") }}<br>
+                        {{ form.on_requestcheckbox }} {{ form.on_requestcheckbox.label(class="form-control-label") }}<br>
+                    </div>-->
+                    <hr>
+                    <div class="form-group">
+                        {% if filter_button == 0 %}
+                            {{ form.FilterButton(class="btn btn-secondary", disabled=True) }}
+                            {{ form.ClearButton(class="btn btn-danger", disabled=True) }}
+                        {% else %}
+                            {{ form.FilterButton(class="btn_second btn-secondary") }}
+                            {{ form.ClearButton(class="btn_second btn-danger") }}
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+            <div class="col-9" style="background-color: rgb(255, 255, 255);">
+                <h3>Query</h3><br>
+                <h5>{{query}}</h5><hr>
+                <h3>Cloud hosting: {{filter_df_len}}</h3><br>
+                    lot 1: Cloud hosting  <strong>{{lot_1_no}}</strong><br>
+                    lot 2: <a href="{{url_for('main.lot2')}}" class="link-button">Cloud software</a> <strong>{{lot_2_no}}</strong><br>
+                    lot 3: <a href="{{url_for('main.lot3')}}" class="link-button">Cloud support</a> <strong>{{lot_3_no}}</strong><br>
+                       
+                <hr><br>
+                
+                {%for result in results%}
+                    <strong><a href="https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud/services/{{result['id']}}" target="_blank">{{ result['serviceName'] }}</a></strong><br>
+                    <u>{{ result['supplierName'] }}</u><br>
+                    Description: &nbsp;{{ result['serviceDescription'] }}<br>
+                    Features: &nbsp;{{result['serviceFeatures']|safe}}<br>
+                    Lot Name: &nbsp; {{result['lotName']}}<br>
+                    Score: &nbsp; {{result['score']}}
+                    <hr>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
 </body>
 </html>

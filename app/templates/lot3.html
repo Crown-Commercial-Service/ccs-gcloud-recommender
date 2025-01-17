@@ -79,7 +79,9 @@
             <div class="col-9" style="background-color: rgb(255, 255, 255);">
                 <h3>Query</h3><br>
                 <h5>{{query}}</h5><hr>
-                <h3>{{filter_df_len}}</h3><br>
+                <h3>Cloud support: {{filter_df_len}}</h3><br>
+                    lot 1: <a href="{{url_for('main.lot1')}}" class="link-button">Cloud hosting</a>  <strong>{{lot_1_no}}</strong><br>
+                    lot 2: <a href="{{url_for('main.lot2')}}" class="link-button">Cloud software</a> <strong>{{lot_2_no}}</strong><br>
                     lot 3: Cloud support  <strong>{{lot_3_no}}</strong><br>
                 <hr><br>
                 
