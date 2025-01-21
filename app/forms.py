@@ -204,7 +204,7 @@ class lot2Pageform(FlaskForm):
                                           ('none','None or don’t know')])
     
     # serviceInterfaceAccessibility - radiolist
-    USA_RadioButtons=RadioField('Service interface accessibility', 
+    SIA_RadioButtons=RadioField('Service interface accessibility', 
                                  choices=[('wcag_aaa','WCAG 2.1 AAA'),
                                           ('wcag_aa','WCAG 2.1 AA or EN 301 549'),
                                           ('wcag_a','WCAG 2.1 A'),

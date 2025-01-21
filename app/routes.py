@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, Flask
 from .forms import mainPageform, lot3Pageform, lot1Pageform, lot2Pageform
-from .utils import sanitize_input, get_text_embeddings, search_service, convert_to_html_list, checkbox_filter
+from .utils import sanitize_input, get_text_embeddings, search_service, convert_to_html_list, checkbox_filter, checkbox_findword_filter
 import pandas as pd
 
 main = Blueprint('main', __name__)
@@ -40,6 +40,8 @@ def index():
             query = sanitize_input(form.Searchbar.data)
             No_filtter_df = pd.DataFrame(search_service(query))
             No_filtter_df = No_filtter_df.loc[No_filtter_df['score']>0.82, :]
+            print(No_filtter_df.columns)
+            #print(No_filtter_df.loc[0,'metricsHow'])
             filter_button = 1
 
             No_filtter_df["serviceFeatures"] = No_filtter_df["serviceFeatures"].apply(convert_to_html_list) 
@@ -159,7 +161,9 @@ def lot1():
                 'standardsCyberEssentialscheckbox': 'standardsCyberEssentials',
                 'standardsCyberEssentialsPluscheckbox': 'standardsCyberEssentialsPlus',
                 'educationPricingcheckbox': 'educationPricing',
-                'freeVersionTrialOptioncheckbox': 'freeVersionTrialOption'
+                'freeVersionTrialOptioncheckbox': 'freeVersionTrialOption',
+                'usageNotificationscheckbox': 'usageNotifications',
+                'backupcheckbox': 'backup'
             }
 
             filter_df= checkbox_filter(form, checkbox_column_map, filter_df)
@@ -171,16 +175,69 @@ def lot1():
             if form.Supplier_RadioButtons.data:
                 filter_df = filter_df.loc[filter_df['resellingType'] == form.Supplier_RadioButtons.data]
 
+            # metricHow
             metricsHow_checkbox_mapping = {'apicheckbox': 'api',
                                            'real_timecheckbox': 'real_time',
                                            'regular_reportscheckbox': 'regular_reports',
                                            'on_requestcheckbox': 'on_request'}
+            filter_df = checkbox_findword_filter(form, metricsHow_checkbox_mapping, 'metricHow', filter_df)
+
+            # metricWhat
+            metricsWhat_checkbox_mapping = {'cpucheckbox': 'cpu',
+                                           'diskcheckbox': 'disk',
+                                           'memorycheckbox': 'memory',
+                                           'httpcheckbox': 'http',
+                                           'networkcheckbox': 'network',
+                                           'num_instancescheckbox': 'num_instances',
+                                           'othercheckbox': 'other'}
+            filter_df = checkbox_findword_filter(form, metricsWhat_checkbox_mapping, 'metricWhat', filter_df)
+
+            # scalingType
+            scalingType_checkbox_mapping = {'automaticcheckbox': 'automatic',
+                                           'user_interventioncheckbox': 'user_intervention'}
+            filter_df = checkbox_findword_filter(form, scalingType_checkbox_mapping, 'scalingType', filter_df)
+
+            # dataProtectionBetweenNetworks
+            dataProtectionBetweenNetworks_checkbox_mapping = {'private_or_psncheckbox': 'private_or_psn',
+                                           'tlscheckbox': 'tls',
+                                           'ipsec_or_vpncheckbox': 'ipsec_or_vpn',
+                                           'othercheckbox': 'other'}
+            filter_df = checkbox_findword_filter(form, dataProtectionBetweenNetworks_checkbox_mapping, 'dataProtectionBetweenNetworks', filter_df)
+
+            # dataProtectionWithinNetwork
+            dataProtectionWithinNetwork_checkbox_mapping = {'tlsWINcheckbox': 'tls',
+                                           'ipsec_or_vpnWINcheckbox': 'ipsec_or_vpn',
+                                           'otherWINcheckbox': 'other'}
+            filter_df = checkbox_findword_filter(form, dataProtectionWithinNetwork_checkbox_mapping, 'dataProtectionWithinNetwork', filter_df)
+
+            # dataStorageAndProcessingLocations
+            dataStorageAndProcessingLocations_checkbox_mapping = {'ukcheckbox': 'uk',
+                                           'eeacheckbox': 'eea'}
+            filter_df = checkbox_findword_filter(form, dataStorageAndProcessingLocations_checkbox_mapping, 'dataStorageAndProcessingLocations', filter_df)
             
-            for checkbox, keyword in metricsHow_checkbox_mapping.items():
-                if getattr(form, checkbox).data:
-                    print(f'{checkbox} is selected.')
-                    filter_df = filter_df[filter_df['metricsHow'].apply(lambda x: isinstance(x, str) and keyword in x)]            
-                       
+            # userAuthentication
+            userAuthentication_checkbox_mapping = {'two_factorcheckbox': 'two_factor',
+                                           'pkacheckbox': 'pka',
+                                           'dedicated_linkcheckbox': 'dedicated_link',
+                                           'government_networkcheckbox': 'government_network',
+                                           'identity_federationcheckbox': 'identity_federation',
+                                           'username_or_passwordcheckbox': 'username_or_password'}
+            filter_df = checkbox_findword_filter(form, userAuthentication_checkbox_mapping, 'userAuthentication', filter_df)
+
+            # managementAccessAuthentication
+            managementAccessAuthentication_checkbox_mapping = {'two_factorMMAcheckbox': 'two_factor',
+                                           'public_keyMMAcheckbox': 'public_key',
+                                           'dedicated_linkMMAcheckbox': 'dedicated_link',
+                                           'government_networkMMAcheckbox': 'government_network',
+                                           'identity_federationMMAcheckbox': 'identity_federation',
+                                           'username_or_passwordMMAcheckbox': 'username_or_password'}
+            filter_df = checkbox_findword_filter(form, managementAccessAuthentication_checkbox_mapping, 'managementAccessAuthentication', filter_df)
+
+            # securityGovernanceStandards
+            securityGovernanceStandards_checkbox_mapping = {'csa_ccmcheckbox': 'csa_ccm',
+                                           'iso_iec_27001checkbox': 'iso_iec_27001'}
+            filter_df = checkbox_findword_filter(form, securityGovernanceStandards_checkbox_mapping, 'securityGovernanceStandards', filter_df)
+
             print('Filter button is pressed.')
 
     lot_1_no = filter_df.loc[filter_df['lotName']=='Cloud hosting',:].shape[0]
@@ -231,7 +288,8 @@ def lot2():
                 'standardsCyberEssentialscheckbox': 'standardsCyberEssentials',
                 'standardsCyberEssentialsPluscheckbox': 'standardsCyberEssentialsPlus',
                 'educationPricingcheckbox': 'educationPricing',
-                'freeVersionTrialOptioncheckbox': 'freeVersionTrialOption'
+                'freeVersionTrialOptioncheckbox': 'freeVersionTrialOption',
+                'supportMultiCloudcheckbox': 'supportMultiCloud'
             }
 
             filter_df= checkbox_filter(form, checkbox_column_map, filter_df)
@@ -243,16 +301,77 @@ def lot2():
             if form.Supplier_RadioButtons.data:
                 filter_df = filter_df.loc[filter_df['resellingType'] == form.Supplier_RadioButtons.data]
 
+            # metricHow
             metricsHow_checkbox_mapping = {'apicheckbox': 'api',
                                            'real_timecheckbox': 'real_time',
                                            'regular_reportscheckbox': 'regular_reports',
                                            'on_requestcheckbox': 'on_request'}
+            filter_df = checkbox_findword_filter(form, metricsHow_checkbox_mapping, 'metricHow', filter_df)
+
+            # dataProtectionBetweenNetworks
+            dataProtectionBetweenNetworks_checkbox_mapping = {'private_or_psncheckbox': 'private_or_psn',
+                                           'tlscheckbox': 'tls',
+                                           'ipsec_or_vpncheckbox': 'ipsec_or_vpn',
+                                           'othercheckbox': 'other'}
+            filter_df = checkbox_findword_filter(form, dataProtectionBetweenNetworks_checkbox_mapping, 'dataProtectionBetweenNetworks', filter_df)
+
+            # dataProtectionWithinNetwork
+            dataProtectionWithinNetwork_checkbox_mapping = {'tlsWINcheckbox': 'tls',
+                                           'ipsec_or_vpnWINcheckbox': 'ipsec_or_vpn',
+                                           'otherWINcheckbox': 'other'}
+            filter_df = checkbox_findword_filter(form, dataProtectionWithinNetwork_checkbox_mapping, 'dataProtectionWithinNetwork', filter_df)
+
+            # dataStorageAndProcessingLocations
+            dataStorageAndProcessingLocations_checkbox_mapping = {'ukcheckbox': 'uk',
+                                           'eeacheckbox': 'eea'}
+            filter_df = checkbox_findword_filter(form, dataStorageAndProcessingLocations_checkbox_mapping, 'dataStorageAndProcessingLocations', filter_df)
             
-            for checkbox, keyword in metricsHow_checkbox_mapping.items():
-                if getattr(form, checkbox).data:
-                    print(f'{checkbox} is selected.')
-                    filter_df = filter_df[filter_df['metricsHow'].apply(lambda x: isinstance(x, str) and keyword in x)]            
-                       
+            # userAuthentication
+            userAuthentication_checkbox_mapping = {'two_factorcheckbox': 'two_factor',
+                                           'pkacheckbox': 'pka',
+                                           'dedicated_linkcheckbox': 'dedicated_link',
+                                           'government_networkcheckbox': 'government_network',
+                                           'identity_federationcheckbox': 'identity_federation',
+                                           'username_or_passwordcheckbox': 'username_or_password'}
+            filter_df = checkbox_findword_filter(form, userAuthentication_checkbox_mapping, 'userAuthentication', filter_df)
+
+            # managementAccessAuthentication
+            managementAccessAuthentication_checkbox_mapping = {'two_factorMMAcheckbox': 'two_factor',
+                                           'public_keyMMAcheckbox': 'public_key',
+                                           'dedicated_linkMMAcheckbox': 'dedicated_link',
+                                           'government_networkMMAcheckbox': 'government_network',
+                                           'identity_federationMMAcheckbox': 'identity_federation',
+                                           'username_or_passwordMMAcheckbox': 'username_or_password'}
+            filter_df = checkbox_findword_filter(form, managementAccessAuthentication_checkbox_mapping, 'managementAccessAuthentication', filter_df)
+
+            # securityGovernanceStandards
+            securityGovernanceStandards_checkbox_mapping = {'csa_ccmcheckbox': 'csa_ccm',
+                                           'iso_iec_27001checkbox': 'iso_iec_27001'}
+            filter_df = checkbox_findword_filter(form, securityGovernanceStandards_checkbox_mapping, 'securityGovernanceStandards', filter_df)
+
+            # cloudDeploymentModel
+            cloudDeploymentModel_checkbox_mapping = {'publiccheckbox': 'public',
+                                                'privatecheckbox': 'private',
+                                                'hybridcheckbox': 'hybrid',
+                                                'communitycheckbox': 'community'}
+            filter_df = checkbox_findword_filter(form, cloudDeploymentModel_checkbox_mapping, 'cloudDeploymentModel', filter_df)
+
+            # userSupportAccessibility - radiolist
+            if form.USA_RadioButtons.data:
+                filter_df = filter_df.loc[filter_df['userSupportAccessibility'] == form.USA_RadioButtons.data]
+    
+            # serviceInterfaceAccessibility - radiolist
+            if form.SIA_RadioButtons.data:
+                filter_df = filter_df.loc[filter_df['serviceInterfaceAccessibility'] == form.SIA_RadioButtons.data]
+    
+            # publicSectorNetworksTypes
+            publicSectorNetworksTypes_checkbox_mapping = {'psncheckbox': 'psn',
+                                                'pnncheckbox': 'pnn',
+                                                'janetcheckbox': 'janet',
+                                                'swancheckbox': 'swan',
+                                                'hscncheckbox': 'hscn'}
+            filter_df = checkbox_findword_filter(form, publicSectorNetworksTypes_checkbox_mapping, 'publicSectorNetworksTypes', filter_df)
+
             print('Filter button is pressed.')
 
              
