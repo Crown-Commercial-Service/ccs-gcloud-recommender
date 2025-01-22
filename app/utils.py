@@ -41,7 +41,12 @@ def search_service(query):
                                                                                                    "standardsCyberEssentials", "standardsCyberEssentialsPlus", 
                                                                                                    "emailOrTicketingSupport", "phoneSupport", "webChatSupport", 
                                                                                                    "governmentSecurityClearances", "staffSecurityClearanceChecks", 
-                                                                                                   "resellingType", "educationPricing", "freeVersionTrialOption"])
+                                                                                                   "resellingType", "educationPricing", "freeVersionTrialOption", 
+                                                                                                   "metricsHow", "metricsWhat", "scalingType", "usageNotifications", 
+                                                                                                   "backup", "dataProtectionBetweenNetworks", "dataProtectionWithinNetwork", 
+                                                                                                   "dataStorageAndProcessingLocations", "userAuthentication", "managementAccessAuthentication", 
+                                                                                                   "securityGovernanceStandards", "datacentreSecurityStandards", "supportMultiCloud", 
+                                                                                                   "cloudDeploymentModel", "userSupportAccessibility", "serviceInterfaceAccessibility", "publicSectorNetworksTypes"])
     print(search_results)
     results=[]
     for result in search_results:
@@ -70,6 +75,23 @@ def search_service(query):
             "resellingType": result["resellingType"],
             "educationPricing": result["educationPricing"],
             "freeVersionTrialOption": result["freeVersionTrialOption"],
+            "metricsHow": result["metricsHow"],
+            "metricsWhat": result["metricsWhat"],
+            "scalingType": result["scalingType"],
+            "usageNotifications": result["usageNotifications"],
+            "backup": result["backup"],
+            "dataProtectionBetweenNetworks": result["dataProtectionBetweenNetworks"],
+            "dataProtectionWithinNetwork": result["dataProtectionWithinNetwork"],
+            "dataStorageAndProcessingLocations": result["dataStorageAndProcessingLocations"],
+            "userAuthentication": result["userAuthentication"],
+            "managementAccessAuthentication": result["managementAccessAuthentication"],
+            "securityGovernanceStandards": result["securityGovernanceStandards"],
+            "datacentreSecurityStandards": result["datacentreSecurityStandards"],
+            "supportMultiCloud": result["supportMultiCloud"],
+            "cloudDeploymentModel": result["cloudDeploymentModel"],
+            "userSupportAccessibility": result["userSupportAccessibility"],
+            "publicSectorNetworksTypes": result["publicSectorNetworksTypes"],
+            "serviceInterfaceAccessibility": result["serviceInterfaceAccessibility"],
             "score": result["@search.score"]  # Azure Search provides the score for each result
         })
     return results
@@ -102,3 +124,11 @@ def checkbox_filter(form, checkbox_column_map, df):
             df = df[df[column] == True]
     
     return df
+
+def checkbox_findword_filter(form, metricsHow_checkbox_mapping, col, filter_df):
+    for checkbox, keyword in metricsHow_checkbox_mapping.items():
+        if getattr(form, checkbox).data:
+            print(f'{checkbox} is selected.')
+            filter_df = filter_df[filter_df[col].apply(lambda x: isinstance(x, str) and keyword in x)]     
+    return filter_df      
+                       

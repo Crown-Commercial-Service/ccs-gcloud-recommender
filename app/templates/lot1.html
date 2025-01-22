@@ -8,6 +8,340 @@
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->    
 </head>
 <body>
-    The lot 1 is under construction. 
+    <div class="container">
+        <h1 class="mt-5">G-cloud 14 Intelligent Search</h1>
+        <form method="post" class="mt-4">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="query">Enter your query:</label>
+                {{ form.Searchbar(class="form-control form-control-lg", autofocus=false, disabled=true) }}
+            </div>
+            {{ form.SearchButton(class="btn_main btn-primary", disabled=True) }}
+        </form>
+        <hr>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-3" style="background-color: rgb(135, 222, 240);">
+                <form method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        <strong>User Support</strong><br>
+                        <div class="form-check">
+                            {{ form.Emailcheckbox(class="form-check-input") }}
+                            {{ form.Emailcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.Phonecheckbox(class="form-check-input") }}
+                            {{ form.Phonecheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.webchatcheckbox(class="form-check-input") }}
+                            {{ form.webchatcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <hr>
+                    </div>
+                    
+                    <div class="form-group">
+                        <strong>Security Certification</strong><br>
+                        <div class="form-check">
+                            {{ form.standardsISOIEC27001checkbox(class="form-check-input") }}
+                            {{ form.standardsISOIEC27001checkbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.standardsISO28000checkbox(class="form-check-input") }}
+                            {{ form.standardsISO28000checkbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.standardsCSASTARcheckbox(class="form-check-input") }}
+                            {{ form.standardsCSASTARcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.standardsPCIcheckbox(class="form-check-input") }}
+                            {{ form.standardsPCIcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.standardsCyberEssentialscheckbox(class="form-check-input") }}
+                            {{ form.standardsCyberEssentialscheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.standardsCyberEssentialsPluscheckbox(class="form-check-input") }}
+                            {{ form.standardsCyberEssentialsPluscheckbox.label(class="form-check-label") }}
+                        </div>
+                        <hr>
+                    </div>
+                    
+                    <div class="form-group">
+                        <strong>{{ form.MGSC_RadioButtons.label }}</strong><br>
+                        {% for subfield in form.MGSC_RadioButtons %}
+                        <div class="form-check">
+                            {{ subfield(class="form-check-input") }}
+                            {{ subfield.label(class="form-check-label") }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <strong>{{ form.SSCC_RadioButtons.label }}</strong><br>
+                        {% for subfield in form.SSCC_RadioButtons %}
+                        <div class="form-check">
+                            {{ subfield(class="form-check-input") }}
+                            {{ subfield.label(class="form-check-label") }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <strong>{{ form.Supplier_RadioButtons.label }}</strong><br>
+                        {% for subfield in form.Supplier_RadioButtons %}
+                        <div class="form-check">
+                            {{ subfield(class="form-check-input") }}
+                            {{ subfield.label(class="form-check-label") }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <hr>                    
+                    <div class="form-group">
+                        <strong>Metric reporting</strong><br>
+                        <div class="form-check">
+                            {{ form.apicheckbox(class="form-check-input") }}
+                            {{ form.apicheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.real_timecheckbox(class="form-check-input") }}
+                            {{ form.real_timecheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.regular_reportscheckbox(class="form-check-input") }}
+                            {{ form.regular_reportscheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.on_requestcheckbox(class="form-check-input") }}
+                            {{ form.on_requestcheckbox.label(class="form-check-label") }}
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="form-group">
+                        <strong>Infrastructure or application metrics</strong><br>
+                        <div class="form-check">
+                            {{ form.cpucheckbox(class="form-check-input") }}
+                            {{ form.cpucheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.diskcheckbox(class="form-check-input") }}
+                            {{ form.diskcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.httpcheckbox(class="form-check-input") }}
+                            {{ form.httpcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.memorycheckbox(class="form-check-input") }}
+                            {{ form.memorycheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.networkcheckbox(class="form-check-input") }}
+                            {{ form.networkcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.num_instancescheckbox(class="form-check-input") }}
+                            {{ form.num_instancescheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.othercheckbox(class="form-check-input") }}
+                            {{ form.othercheckbox.label(class="form-check-label") }}
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="form-group">
+                        <strong>Scaling</strong><br>
+                        <div class="form-check">
+                            {{ form.automaticcheckbox(class="form-check-input") }}
+                            {{ form.automaticcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.user_interventioncheckbox(class="form-check-input") }}
+                            {{ form.user_interventioncheckbox.label(class="form-check-label") }}
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="form-group">
+                        <strong>Usage Notification</strong><br>
+                        <div class="form-check">
+                            {{ form.usageNotificationscheckbox(class="form-check-input") }}
+                            {{ form.usageNotificationscheckbox.label(class="form-check-label") }}
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="form-group">
+                        <strong>Backup and Recovery</strong><br>
+                        <div class="form-check">
+                            {{ form.backupcheckbox(class="form-check-input") }}
+                            {{ form.backupcheckbox.label(class="form-check-label") }}
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="form-group">
+                        <strong>Data protection between buyer and supplier networks</strong><br>
+                        <div class="form-check">
+                            {{ form.private_or_psncheckbox(class="form-check-input") }}
+                            {{ form.private_or_psncheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.tlscheckbox(class="form-check-input") }}
+                            {{ form.tlscheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.ipsec_or_vpncheckbox(class="form-check-input") }}
+                            {{ form.ipsec_or_vpncheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.othercheckbox(class="form-check-input") }}
+                            {{ form.othercheckbox.label(class="form-check-label") }}
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="form-group">
+                        <strong>Data protection within supplier network</strong><br>
+                        <div class="form-check">
+                            {{ form.tlsWINcheckbox(class="form-check-input") }}
+                            {{ form.tlsWINcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.ipsec_or_vpnWINcheckbox(class="form-check-input") }}
+                            {{ form.ipsec_or_vpnWINcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.otherWINcheckbox(class="form-check-input") }}
+                            {{ form.otherWINcheckbox.label(class="form-check-label") }}
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="form-group">
+                        <strong>Data storage and processing locations</strong><br>
+                        <div class="form-check">
+                            {{ form.ukcheckbox(class="form-check-input") }}
+                            {{ form.ukcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.eeacheckbox(class="form-check-input") }}
+                            {{ form.eeacheckbox.label(class="form-check-label") }}
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="form-group">
+                        <strong>User authentication</strong><br>
+                        <div class="form-check">
+                            {{ form.two_factorcheckbox(class="form-check-input") }}
+                            {{ form.two_factorcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.pkacheckbox(class="form-check-input") }}
+                            {{ form.pkacheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.dedicated_linkcheckbox(class="form-check-input") }}
+                            {{ form.dedicated_linkcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.government_networkcheckbox(class="form-check-input") }}
+                            {{ form.government_networkcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.identity_federationcheckbox(class="form-check-input") }}
+                            {{ form.identity_federationcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.username_or_passwordcheckbox(class="form-check-input") }}
+                            {{ form.username_or_passwordcheckbox.label(class="form-check-label") }}
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="form-group">
+                        <strong>Management access authentication</strong><br>
+                        <div class="form-check">
+                            {{ form.two_factorMMAcheckbox(class="form-check-input") }}
+                            {{ form.two_factorMMAcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.public_keyMMAcheckbox(class="form-check-input") }}
+                            {{ form.public_keyMMAcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.dedicated_linkMMAcheckbox(class="form-check-input") }}
+                            {{ form.dedicated_linkMMAcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.government_networkMMAcheckbox(class="form-check-input") }}
+                            {{ form.government_networkMMAcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.identity_federationMMAcheckbox(class="form-check-input") }}
+                            {{ form.identity_federationMMAcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.username_or_passwordMMAcheckbox(class="form-check-input") }}
+                            {{ form.username_or_passwordMMAcheckbox.label(class="form-check-label") }}
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="form-group">
+                        <strong>Security governance standards</strong><br>
+                        <div class="form-check">
+                            {{ form.csa_ccmcheckbox(class="form-check-input") }}
+                            {{ form.csa_ccmcheckbox.label(class="form-check-label") }}
+                        </div>
+                        <div class="form-check">
+                            {{ form.iso_iec_27001checkbox(class="form-check-input") }}
+                            {{ form.iso_iec_27001checkbox.label(class="form-check-label") }}
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="form-group">
+                        {% if filter_button == 0 %}
+                            {{ form.FilterButton(class="btn btn-secondary", disabled=True) }}
+                            {{ form.ClearButton(class="btn btn-danger", disabled=True) }}
+                        {% else %}
+                            {{ form.FilterButton(class="btn_second btn-secondary") }}
+                            {{ form.ClearButton(class="btn_second btn-danger") }}
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+            <div class="col-9" style="background-color: rgb(255, 255, 255);">
+                <h3>Query</h3><br>
+                <h5>{{query}}</h5><hr>
+                <h3>Cloud hosting: {{filter_df_len}}</h3><br>
+                    lot 1: Cloud hosting  <strong>{{lot_1_no}}</strong><br>
+                    lot 2: <a href="{{url_for('main.lot2')}}" class="link-button">Cloud software</a> <strong>{{lot_2_no}}</strong><br>
+                    lot 3: <a href="{{url_for('main.lot3')}}" class="link-button">Cloud support</a> <strong>{{lot_3_no}}</strong><br>
+                       
+                <hr><br>
+                
+                {%for result in results%}
+                    <strong><a href="https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud/services/{{result['id']}}" target="_blank">{{ result['serviceName'] }}</a></strong><br>
+                    <u>{{ result['supplierName'] }}</u><br>
+                    Description: &nbsp;{{ result['serviceDescription'] }}<br>
+                    Features: &nbsp;{{result['serviceFeatures']|safe}}<br>
+                    Lot Name: &nbsp; {{result['lotName']}}<br>
+                    Score: &nbsp; {{result['score']}}
+
+                    <hr>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
 </body>
 </html>
